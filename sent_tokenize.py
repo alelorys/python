@@ -7,21 +7,7 @@ Created on Tue May  5 15:21:21 2020
 
 import nltk
 from nltk.tokenize import sent_tokenize, word_tokenize
-class TextProcessor:
-    def __init__(self,text):
-        self.text = text
-        
-        self.song = []
-        self.song.append({"TITLE":"Forever","CONTENT":text})
-      
-    def sentenceTokenizer(self, sents):
-        self.sents = sent_tokenize(text)
-        self.song.append({"TITLE":"Sentences tokenize","CONTENT":self.sents})
-    
-    def wordTokenizer(self, words):
-        self.words = word_tokenize(text)
-        self.song.append({"TITLE":"Word tokenize","CONTENT":self.words})
-       
+from nltk.stem import WordNetLemmatizer
 text = """Look at the time.
 It’s nine o’clock and you have to go.
 I want you to stay.
@@ -78,11 +64,19 @@ We’re forever paired together.
 Shine wherever we go.
 Let the flower of your soul.
 Fly around the love we’ll grow tonight."""
+song = []
+song.append({"TITLE":"Forever","CONTENT":text})
+sentences = sent_tokenize(text)
+song.append({"TITLE":"Sent tokenize","CONTENT":sentences})
 
-sentence = TextProcessor(text)
-sentence.sentenceTokenizer(text)
-sentence.wordTokenizer(text)
-print(sentence.song)
-text2 = """If closefd is False, the underlying file descriptor will be kept open when the file is closed. 
-This does not work when a file name is given and must be True in that case.
- A custom opener can be used by passing a callable as *opener*."""
+words = word_tokenize(text)
+song.append({"TITLE":"word tokenize","CONTENT":words})
+
+lemmatizer = WordNetLemmatizer()
+words_lemmetized = [lemmatizer.lemmatize(word) for word in words]
+
+song.append({"TITLE":"Lemmatize","CONTENT":words_lemmetized})
+
+pos = nltk.pos_tag(words)
+song.append({"TITLE":"POS","CONTENT":pos})
+print(song)
